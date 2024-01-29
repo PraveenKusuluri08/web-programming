@@ -1,6 +1,55 @@
 <html>
 
+<head>
+    <title>Form</title>
+</head>
+
 <body>
     <h1>Hello,</h1>
+
+    <div id="new_form">
+
+
+    </div>
+
+    <form id="num_form">
+        <input type="number" id="num1" name="num1" placeholder="Num-1">
+        <input type="number" id="num2" name="num2" placeholder="Num-2">
+        <button id="submit" type="submit">Submit</button>
+    </form>
+    <div id="result"></div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById("num_form").addEventListener("submit", (e) => {
+                e.preventDefault();
+                let message;
+
+                const num1 = document.getElementById("num1").value
+
+                const num2 = document.getElementById("num2").value
+
+                if (num1 > num2) message = "Number 1 is greater that number 2"
+                else if (num1 < num2) message = "Number 2 greater than number 1";
+                else if (num1 == "" || num2 == "") message = "Please provide numbers to check"
+                else message = "both are equal"
+
+                console.log(typeof num1, num2);
+                const value = Math.max(num1, num2)
+
+                const result = document.getElementById("result")
+                document.getElementById("submit").disabled = true
+                result.innerText = message;
+                let new_form = document.getElementById("new_form")
+                if (num1 !== "" || num2 !== "") {
+                    new_form.innerHTML = `<form id="num_form">
+                        <input type="number" id="num11" name="num11" placeholder="Num-1">
+                        <input type="number" id="num22" name="num22" placeholder="Num-2">
+                        <button id="submit" type="submit">Submit</button>
+                        </form>`
+                }
+            })
+        })        
+    </script>
 </body>
+
 </html>
