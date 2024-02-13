@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <textarea name="movies" id="movies" cols="60" rows="10"></textarea>
+    <table id="moviesTable" border="1">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Title</th>
+                <th>Year</th>
+                <th>Director</th>
+                <th>Plot</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Movie data will be inserted here -->
+        </tbody>
+    </table>
+    <script>
+        window.onload = () => {
+            const textArea = document.getElementById('movies');
+            const tableBody = document.getElementById('moviesTable').getElementsByTagName('tbody')[0];
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', 'movies.json', true);
+            xhr.send();
+            xhr.onload = () => {
+                console.log(xhr.readyState);
+                if (xhr.status === 200) {
+                    const movies = JSON.parse(xhr.responseText);
+                    movies.forEach((movie,i) => {
+                        var row = tableBody.insertRow();
+
+                        var cell1 = row.insertCell(0);
+                        var cell2 = row.insertCell(1);
+                        var cell3 = row.insertCell(2);
+                        var cell4 = row.insertCell(3);
+                        var cell5 = row.insertCell(4);
+
+                        const button = document.createElement("button");
+                        button.innerText = "Click";
+
+                        cell1.appendChild(button);
+                        cell2.innerHTML = movie.title;
+                        cell3.innerHTML = movie.Year;
+                        cell4.innerHTML = movie.director;
+                        cell5.innerHTML = movie.plot;
+
+                        button.addEventListener('click', function () {
+                            console.log('clicked',movies[i]);
+                            textArea.value=JSON.stringify(movies[i]);
+                        });
+                    });
+                }
+            };
+        };
+    </script>
+</body>
+
+</html>
