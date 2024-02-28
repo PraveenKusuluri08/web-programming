@@ -16,7 +16,17 @@
 </head>
 
 <body>
+ 
+        <input type="text" name="filter" placeholder="filter to db">
+        <button id="filterbutton" type="submit">Filter</button>
+   
+    <br/>
+    <br/>
     <textarea name="movies" id="movies" cols="60" rows="10"></textarea>
+
+    <br/>
+    <br/>
+
     <table id="moviesTable" border="1">
         <thead>
             <tr>
@@ -28,16 +38,17 @@
             </tr>
         </thead>
         <tbody>
-            <!-- Movie data will be inserted here -->
+        
         </tbody>
     </table>
     <script>
+     console.log("Hello world")
         window.onload = () => {
             const textArea = document.getElementById('movies');
             const tableBody = document.getElementById('moviesTable').getElementsByTagName('tbody')[0];
 
             const xhr = new XMLHttpRequest();
-            xhr.open('GET', 'http://127.0.0.1:5000/test-movies', true);
+            xhr.open("GET","/movies.json",true);
             xhr.send();
             xhr.onload = () => {
                 console.log(xhr.readyState);
@@ -70,6 +81,22 @@
                 }
             };
         };
+        const filterButton= document.getElementById('filterbutton');
+        filterButton.addEventListener('click',()=>{
+            const filter = document.getElementById("filter").value
+            
+            window.alert("Clicked"+filter)
+            const xml =new XMLHttpRequest()
+            // xml.open("GET",`https://ideal-space-potato-p6grq5qj59w27q69-5000.app.github.dev/filtermovies?filter=${filter}`)
+            // xml.send()
+            // xml.onload=()=>{
+            //     console.log(xml.readyState)
+            //     if(xml.status===200){
+            //         const movies=JSON.parse(xml.responseText)
+            //         console.log(movies)
+            //     }
+            // }
+        })
     </script>
 </body>
 
