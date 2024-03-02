@@ -1,4 +1,15 @@
-[
+from flask import Flask,render_template,send_from_directory, request,jsonify
+import os
+import json
+from mongita import MongitaClientDisk
+
+client=MongitaClientDisk()
+
+moviesDb = client.moviesdb
+
+app =Flask(__name__)
+
+movies= [
     {
         "title": "Blade Runner",
         "year": 1982,
@@ -60,3 +71,42 @@
         "plot": "A man's quest for knowledge turns into a desperate race through time after he invents a machine that can transport him through time."
     }
 ]
+
+@app.route('/')
+def helloWorld():
+    return 'Hello, World!'
+
+@app.route("/test-movies")
+def moviesData():
+    return json.loads(open('movies.json').read())
+
+@app.route("/<path:path>")
+def staticFile(path):
+    print(path)
+    return send_from_directory('templates', path)
+
+
+@app.route("/insertmovies")
+def insert_movies():
+    movie_collection = moviesDb.movies
+    movie_collection.insert_many(movies)
+    return "movies inserted"
+
+
+@app.route("/findmovies")
+def find_movies():
+    movie_collection = moviesDb.movies
+    data=list(movie_collection.find({}))
+    
+    for d in data:
+        del d["_id"]
+    return jsonify(data)
+
+
+@app.route("/movies")
+def get_movies():
+    movie_collection = moviesDb.movies
+    data=list(movie_collection.find({}))
+    for d in data:
+        del d["_id"]
+    return render_template("index.html", movies=data)
