@@ -83,7 +83,7 @@ def moviesData():
 @app.route("/<path:path>")
 def staticFile(path):
     print(path)
-    return send_from_directory('templates', path)
+    return send_from_directory('templates', path,movies=movies)
 
 
 @app.route("/insertmovies")
